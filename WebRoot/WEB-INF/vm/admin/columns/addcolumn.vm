@@ -1,0 +1,68 @@
+<div class="mbx">
+	当前位置： #home() &gt;&gt; 
+	#columns() &gt;&gt; #addcolumn()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<!--<a href="javascript:void(0);" id="savecolumn" data-options="iconCls:'icon-save'"
+		 class="easyui-linkbuttonprimary">保 存</a>-->
+		 <button id="savecolumn" type="button" class="btn btn-small btn-primary"><i class="icon-ok-sign icon-white"></i> 保 存</button>
+	</div>
+	添加栏目
+</div>
+<div class="formdiv">
+	<form id="columnForm" method="post">
+	    <div>
+	        <label for="column.parentId">父节点:</label>
+	        <label id="parentName">顶级栏目</label>
+	        <input id="parentId" type="hidden"" name="column.parentId"/>
+	    </div>
+	    <div>
+	        <label for="column.column_name">栏目名称:</label>
+	        <input class="easyui-validatebox" type="text" name="column.column_name" data-options="required:true" />  
+	    </div>
+	    <div>
+	        <label for="column.column_title">栏目标题:</label>
+	        <input class="easyui-validatebox" type="text" name="column.column_title" data-options="required:true" />  
+	    </div>
+	    <div>
+	        <label for="column.template">使用模版:</label>
+	        <input class="easyui-validatebox" type="text" name="column.template" data-options="required:true" />  
+	    </div>
+	    <div>
+	        <label for="column.column_icon">栏目图标:</label>
+	        <input class="easyui-validatebox" type="text" name="column.column_icon" data-options="required:false" />  
+	    </div>
+	    <div>
+	        <label for="column.openway">打开方式:</label>
+	        <select id="cc" class="easyui-combobox" name="column.openway" style="width:200px;">
+    			<option value="_self">当前窗口</option>
+    			<option value="_blank">新窗口</option>
+			</select>   
+	    </div>
+	    <div>
+	        <label for="column.column_order">排序编号：</label>
+	        <input class="easyui-validatebox" type="text" name="column.column_order" value="0" data-options="required:false" />  
+	    </div>
+	    <div>
+	    	<label for="column.description">栏目描述：</label>
+	    	<textarea rows="5" cols="20" name="column.description"></textarea>
+	    </div>
+	</form>
+</div>
+<script type="text/javascript">
+<!--
+	$("#columnForm").form({
+		url:'column!addColumn.action',
+		onSubmit:function(){
+			var isValid = $(this).form('validate');
+			return isValid;
+		},
+		success:function(data){
+		}
+	});
+	$("#savecolumn").on('click',function(){
+		$("#columnForm").submit();
+	});
+//-->
+</script>

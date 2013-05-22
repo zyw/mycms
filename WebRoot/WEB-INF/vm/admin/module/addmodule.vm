@@ -1,0 +1,58 @@
+<div class="mbx">当前位置： 
+	#home() &gt;&gt; 
+	#template() &gt;&gt;
+	#module() &gt;&gt;
+	#addmodule()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<button id="savemodule" type="button" class="btn btn-small btn-primary"><i class="icon-ok-sign icon-white"></i> 保 存</button>
+	</div>
+	添加模板
+</div>
+<div class="formdiv">
+	<form id="moduleForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="module.temp_id" id="templateId">
+		<input type="hidden" name="templateName" id="templateName">
+	    <div>
+	        <label for="module.m_name">模块名称：</label>
+	        <input class="easyui-validatebox" type="text"" name="module.m_name" data-options="required:true"/>
+	    </div>
+	    <div>
+	        <label for="module.m_title">模块标题：</label>
+	        <input class="easyui-validatebox" type="text" name="module.m_title" data-options="required:true"/>  
+	    </div>
+	    <div>
+	        <label for="tempfile">模块模板：</label>
+	        <input class="easyui-validatebox" type="file" name="tempfile" data-options="required:true">
+	    </div>
+	    <div>
+	    	<label class="arealabel" for="module.description">模板描述：</label>
+	    	<textarea rows="3" cols="30" name="module.description"></textarea>
+	    </div>
+	</form>
+</div>
+#literal()
+<script type="text/javascript">
+<!--
+	$(function(){
+		$("#templateId").val(module.selectrow['id']);
+		$("#templateName").val(module.selectrow['t_name']);
+	});
+	$("#moduleForm").form({
+		url:'module!addModule.action',
+		onSubmit:function(){
+			var isValid = $(this).form('validate');
+			return isValid;
+		},
+		success:function(data){
+			module.selectrow = null;
+			mycms.layouthref('template_content','module/modules.vm');
+		}
+	});
+	$("#savemodule").on('click',function(){
+		$("#moduleForm").submit();
+	});
+//-->
+</script>
+#end

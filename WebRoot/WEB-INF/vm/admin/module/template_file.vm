@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="css/codemirror.css">
+<script type="text/javascript" src="js/codemirror.js"></script>
+<script type="text/javascript" src="js/xml.js"></script>
+<script type="text/javascript" src="js/javascript.js"></script>
+<script type="text/javascript" src="js/css.js"></script>
+<script type="text/javascript" src="js/htmlmixed.js"></script>
+<style>.CodeMirror {border: 1px solid #EFEFEF;font-size: 12px;}</style>
+<div class="mbx">当前位置： 
+	#home() &gt;&gt; 
+	#template() &gt;&gt;
+	#module() &gt;&gt;
+	#tempfile()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<div id="uploadTempFile" style="float:left;padding-right: 5px;">
+		<button class="btn btn-small btn-success">
+			<i class="icon-upload icon-white"></i> 上传模板文件
+		</button>
+		</div>
+		<button id="saveUpdate" class="btn btn-small">
+			<i class="icon-edit"></i> 保存修改
+		</button>
+		<button id="deltempFile" class="btn btn-small">
+			<i class="icon-remove-sign"></i> 删除模板文件
+		</button>
+	</div>
+	模板文件管理&nbsp;
+	<!-- 
+	<button id="templatefile" class="btn btn-small btn-success">
+		<i class="icon-th-large icon-white"></i> 模板文件管理
+	</button>
+	 -->
+</div>
+<div id="filestab"></div>
+#literal()
+<div style="clear: left;padding-top: 10px;">
+	<textarea id="code" name="code"></textarea>
+</div>
+<script type="text/javascript">
+<!--
+	var mixedMode = {
+	    name: "htmlmixed",
+	    scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+	                   mode: 'javascript'}]
+     };
+	var editor = CodeMirror.fromTextArea(document.getElementById('code'), {mode: mixedMode,lineNumbers:true, tabMode: "indent"});
+	function loading(){
+		$.post('tempfile.action',{'templateName':module.selectrow['t_name'],'moduleName':module.moduleName},
+			function(data){
+				var fileshtml = templateFileList(data.fileInfos);
+				$("#filestab").html(fileshtml);
+				editor.setValue(data.fileInfos.contents[0]);
+			},
+		'json').done(function(){
+			var lis = $( "#selectable" ).children('.state-default');
+		    lis.each(function(i){
+		      $(this).on('click',function(){
+		        lis.each(function(i){
+		          $(this).removeClass('ui-selected');
+		        });
+		        $(this).addClass('ui-selected');
+		        var text = $(this).text();
+		        $.post('tempfile!readerFile.action',{'templateName':module.selectrow['t_name'],'moduleName':module.moduleName,'fileName':text},
+		        	function(result){
+		        		editor.setValue(result.content);
+		        	},
+		        'json');
+		      });
+		    });
+		});
+	}
+	loading();
+	$("#saveUpdate").on('click',function(){
+		var fileName = $("#selectable .ui-selected").text();
+		var fileContent = editor.getValue();
+		$.post('tempfile!saveModify.action',{'templateName':module.selectrow['t_name'],'moduleName':module.moduleName,'fileName':fileName,'fileContent':fileContent},
+			function(result){
+				var name = result.message.messageName;
+				var content = result.message.messageContent;
+				if(name=='error'){
+					ZENG.msgbox.show(content, 1, 2000);
+				}else if(name=='success'){
+					ZENG.msgbox.show(content, 4, 2000);
+				}
+			},
+		'json');
+	});
+	
+	var action = 'tempfile!uploadTempFile.action';
+	$.jUploader({
+	    button: 'uploadTempFile',
+	    action: action,
+		onUpload:function(fileName){
+			action += '?templateName='+module.selectrow['t_name']+'&moduleName='+module.moduleName;
+		},
+	    onComplete: function (fileName, response) {
+	        if (response.success) {
+	        	loading();
+	        	ZENG.msgbox.show('上传成功！', 4, 2000);
+	        } else {
+	        	ZENG.msgbox.show('上传失败！', 1, 2000);
+	        }
+	    }
+	});
+	$("#deltempFile").on('click',function(){
+		
+	});
+	//-->
+</script>
+#end

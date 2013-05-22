@@ -1,0 +1,16 @@
+<ul id="restree"></ul>
+#literal()
+<script type="text/javascript">
+<!--
+	$("#restree").tree({
+		url:'res.action?temp='+new Date().getTime(),
+		animate:true,
+		onBeforeLoad:function(node,param){
+			$.each(param,function(i,n){
+				alert(i + "==" + n);
+			});
+		}
+	});
+//-->
+</script>
+#end

@@ -1,0 +1,29 @@
+<div class="mbx">当前位置： 
+	#home() &gt;&gt; 
+	#columns()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<!--<a href="javascript:void(0);" id="addcolumn" class="easyui-linkbuttonprimary">添加顶级菜单</a>-->
+		<button id="addcolumn" class="btn btn-small btn-success">
+			<i class="icon-plus-sign icon-white"></i> 添加顶级菜单
+		</button>
+	</div>
+	栏目管理
+</div>
+<table id="colstable"></table>
+#literal()
+<script type="text/javascript">
+	$('#colstable').datagrid({  
+	    url:'datagrid_data.json',  
+	    columns:[[
+	        {field:'code',title:'Code',width:100},  
+	        {field:'name',title:'Name',width:100},  
+	        {field:'price',title:'Price',width:100,align:'right'}  
+	    ]]
+	});
+	$("#addcolumn").on('click',function(){
+		mycms.layouthref('column_content','columns/addcolumn.vm');
+	});
+</script>
+#end

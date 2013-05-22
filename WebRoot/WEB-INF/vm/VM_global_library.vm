@@ -1,0 +1,45 @@
+##首页
+#macro(home)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('home','home.vm')">首页</a>
+#end
+
+##栏目和内容管理
+#macro(columns)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('column_content','columns/columns.vm')">栏目和内容管理</a>
+#end
+
+
+##添加栏目
+#macro(addcolumn)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('column_content','columns/addcolumn.vm')">添加栏目</a>
+#end
+
+##模板管理
+#macro(template)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('template_content','template/templates.vm')">模板管理</a>
+#end
+
+##添加模板
+#macro(addtemplate)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('template_content','template/addtemplate.vm')">添加模板</a>
+#end
+
+##模块管理
+#macro(module)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('template_content','module/modules.vm')">模块管理</a>
+#end
+
+##添加模块
+#macro(addmodule)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('template_content','module/addmodule.vm')">添加模块</a>
+#end
+
+##模板文件管理
+#macro(tempfile)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('template_content','module/template_file.vm')">添加模块</a>
+#end
+
+##资源管理
+#macro(resource)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('resource_manager','res/res_list.vm')">资源管理</a>
+#end

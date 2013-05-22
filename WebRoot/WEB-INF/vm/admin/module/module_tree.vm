@@ -1,0 +1,25 @@
+<ul id="modules" class="menu-list">
+	<!--<li><a href="javascript:;" data-url="main.html">我的工作台</a></li>
+	<li><a href="javascript:;" data-url="新增稿件.html">新增稿件</a></li>
+	<li><a href="javascript:;" data-url="退回稿件.html">退回稿件</a></li>
+	<li><a href="javascript:;" data-url="草稿稿件.html">草稿稿件</a></li>
+	<li><a href="javascript:;" data-url="待审核稿件.html">待审核稿件</a></li>
+	<li><a href="javascript:;" data-url="已发布稿件.html">已发布稿件</a></li>
+	<li><a href="javascript:;" data-url="我的信息.html">我的信息</a></li>
+--></ul>
+#literal()
+<script type="text/javascript">
+	<!--
+	$.post('module!listModule.action',{'module.temp_id':module.tempid},
+		function(data){
+			var modules = data.rows;
+			var content = "";
+			for(var i = 0; i<modules.length; i++){
+				content += "<li><a href='javascript:void(0);'>"+modules[i].m_title+"</a></li>";
+			}
+			$("#modules").html(content);
+		},
+	'json');
+	//-->
+</script>
+#end

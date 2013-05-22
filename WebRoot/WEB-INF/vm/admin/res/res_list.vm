@@ -1,0 +1,58 @@
+<div class="mbx">当前位置： 
+	#home() &gt;&gt; 
+	#resource()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<div style="float: left;margin-right: 10px;font-weight: normal;">
+			当前目录：<label id="currfolder"></label>
+		</div>
+		<div id="uploadResFile" style="float:left;padding-right: 5px;">
+		<button class="btn btn-small btn-success">
+			<i class="icon-upload icon-white"></i> 上传文件
+		</button>
+		</div>
+		目录名称：<input type="text" id="folder" style="height: 20px;width:100px;margin-top:5px;"/>
+		<button class="btn btn-small">
+			<i class="icon-folder-open"></i> 新建
+		</button>
+	</div>
+	资源管理
+</div>
+<table id="resTable"></table>
+#literal()
+<script type="text/javascript">
+<!--
+	$("#resTable").datagrid({
+		url:'res!fileInfo.action',
+		width:'auto',
+	    fitColumns:true,
+	    rownumbers:true,
+		columns:[[
+		          	{checkbox:true},
+			        {field:'fileName',title:'文件名称',align:'center',width:20},  
+			        {field:'fileSize',title:'文件大小',align:'center',width:30},  
+			        {field:'lastModified',title:'最后修改时间',align:'center',width:30}
+			    ]],
+	    onLoadSuccess:function(data){
+	    	$("#currfolder").text(data.currentPath);
+	    }
+	});
+	$.jUploader({
+	    button: 'uploadResFile',
+	    action: '',
+		onUpload:function(fileName){
+			action += '?templateName='+module.selectrow['t_name']+'&moduleName='+module.moduleName;
+		},
+	    onComplete: function (fileName, response) {
+	        if (response.success) {
+	        	loading();
+	        	ZENG.msgbox.show('上传成功！', 4, 2000);
+	        } else {
+	        	ZENG.msgbox.show('上传失败！', 1, 2000);
+	        }
+	    }
+	});
+//-->
+</script>
+#end

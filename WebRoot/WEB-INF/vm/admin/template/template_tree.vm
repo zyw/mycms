@@ -1,0 +1,32 @@
+<div id="templatetree" class="easyui-accordion" data-options="width:'auto',height:'auto',fit:true,animate:true,border:false">
+</div>
+#literal()
+<script type="text/javascript">
+<!--
+	$.post('template!listTemplate.action',{},function(data){
+		if(!data){
+			$("#templatetree").removeAttr('data-options').removeClass();
+			$("#templatetree").html("<span>还没有模板数据，赶快添加吧！</span>");
+			return;
+		}
+		
+		var rows = data.rows;
+		for(var i=0; i<rows.length;i++){
+			$("#templatetree").accordion('add',{
+				id		:	rows[i].id,
+				title	:	rows[i].t_title,
+				selected:	false
+			});
+		}
+	},'json');
+	$("#templatetree").accordion({
+		onSelect:function(title,index){
+			var panel = $(this).accordion('getSelected');
+			module.tempid = $(panel).panel('options')['id'];
+			$(panel).panel('refresh','module/module_tree.vm');
+			mycms.layouthref('template_content','module/modules.vm');
+		}
+	});
+//-->
+</script>
+#end
