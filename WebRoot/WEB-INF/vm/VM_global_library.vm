@@ -43,3 +43,7 @@
 #macro(resource)
 	<a href="javascript:void(0);" onclick="mycms.layouthref('resource_manager','res/res_list.vm')">资源管理</a>
 #end
+##资源编辑
+#macro(resedit)
+	<a href="javascript:void(0);" onclick="mycms.layouthref('resource_manager','res/res_file.vm')">资源编辑</a>
+#end

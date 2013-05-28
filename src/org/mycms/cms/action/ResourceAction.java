@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.json.annotations.JSON;
+import org.mycms.cms.commons.Attributes;
 import org.mycms.cms.commons.Constant;
+import org.mycms.cms.commons.TreeVO;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -59,14 +61,15 @@ public class ResourceAction extends BaseAction {
 			sb.append("\"text\":\"资源树\",");
 			sb.append("\"state\": \"open\",");
 			sb.append("\"children\":");
-			List<Map<String,String>> temp = new ArrayList<Map<String,String>>();
-			Map<String,String> tempMap = null;
+			List<TreeVO> temp = new ArrayList<TreeVO>();
+			TreeVO tv = null;
 			for(int i=0;i<files.length;i++){
-				tempMap = new HashMap<String,String>();
-				tempMap.put("id", files[i].getName() + Constant.RES);
-				tempMap.put("text", files[i].getName());
-				tempMap.put("state", "closed");
-				temp.add(tempMap);
+				tv = new TreeVO();
+				tv.setId(files[i].getName() + Constant.RES);
+				tv.setText(files[i].getName());
+				tv.setState("closed");
+				tv.setAttributes(new Attributes(1));
+				temp.add(tv);
 			}
 			Gson gson = new Gson();
 			sb.append(gson.toJson(temp));
@@ -75,19 +78,21 @@ public class ResourceAction extends BaseAction {
 			String realPath = ServletActionContext.getServletContext().getRealPath(Constant.SKINS + File.separator + id);
 			File resFile = new File(realPath);
 			File[] resFiles = resFile.listFiles();
-			List<Map<String,String>> tempList = new ArrayList<Map<String,String>>();
-			Map<String,String> tempMap = null;
+			List<TreeVO> tempList = new ArrayList<TreeVO>();
+			TreeVO tv = null;
 			for(int i = 0; i < resFiles.length; i++){
-				tempMap = new HashMap<String,String>();
+				tv = new TreeVO();
+				tv.setText(resFiles[i].getName());
 				if(resFiles[i].isFile()){
-					tempMap.put("text", resFiles[i].getName());
-					tempMap.put("state", "open");
+					tv.setId(id + File.separator + resFiles[i].getName());
+					tv.setState("open");
+					tv.setAttributes(new Attributes(0));
 				}else{
-					tempMap.put("id", id + File.separator + resFiles[i].getName());
-					tempMap.put("text", resFiles[i].getName());
-					tempMap.put("state","closed");
+					tv.setId(id + File.separator + resFiles[i].getName());
+					tv.setState("closed");
+					tv.setAttributes(new Attributes(1));
 				}
-				tempList.add(tempMap);
+				tempList.add(tv);
 			}
 			Gson gson = new Gson();
 			sb.append(gson.toJson(tempList));
@@ -105,23 +110,28 @@ public class ResourceAction extends BaseAction {
 		return null;
 	}
 	public String fileInfo() throws Exception{
+		
 		if(filePath==null){
-			String realPath = ServletActionContext.getServletContext().getRealPath(Constant.SKINS);
 			currentPath = Constant.SKINS;
-			File resfile = new File(realPath);
-			File[] files = resfile.listFiles();
-			filesInfo = new ArrayList<Map<String,String>>();
-			Map<String,String> tempMap = null;
-			for(int i = 0; i < files.length; i++){
-				tempMap = new HashMap<String,String>();
-				tempMap.put("fileName", files[i].getName());
-				tempMap.put("fileSize", (files[i].length()/8)+"");
-				Calendar datetime = Calendar.getInstance();
-				Date date = new Date(files[i].lastModified());
-				datetime.setTime(date);
-				tempMap.put("lastModified", date.toString()+" "+datetime.get(Calendar.HOUR_OF_DAY)+":"+datetime.get(Calendar.MINUTE)+":"+datetime.get(Calendar.SECOND));
-				filesInfo.add(tempMap);
-			}
+			
+		}else{
+			currentPath = Constant.SKINS + File.separator + filePath;
+		}
+		String realPath =  ServletActionContext.getServletContext().getRealPath(currentPath);;
+		File resfile = new File(realPath);
+		if(resfile.isFile()) return SUCCESS;
+		File[] files = resfile.listFiles();
+		filesInfo = new ArrayList<Map<String,String>>();
+		Map<String,String> tempMap = null;
+		for(int i = 0; i < files.length; i++){
+			tempMap = new HashMap<String,String>();
+			tempMap.put("fileName", files[i].getName());
+			tempMap.put("fileSize", (files[i].length()/8)+"");
+			Calendar datetime = Calendar.getInstance();
+			Date date = new Date(files[i].lastModified());
+			datetime.setTime(date);
+			tempMap.put("lastModified", date.toString()+" "+datetime.get(Calendar.HOUR_OF_DAY)+":"+datetime.get(Calendar.MINUTE)+":"+datetime.get(Calendar.SECOND));
+			filesInfo.add(tempMap);
 		}
 		return SUCCESS;
 	}

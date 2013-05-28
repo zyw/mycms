@@ -1,0 +1,40 @@
+<style>.CodeMirror {border: 1px solid #EFEFEF;font-size: 12px;}</style>
+<div class="mbx">当前位置： 
+	#home() &gt;&gt; 
+	#resource() &gt;&gt;
+	#resedit()
+</div>
+<div class="columnset">
+	<div class="manbtn">
+		<div style="float: left;margin-right: 10px;font-weight: normal;">
+			当前目录：<label id="currfolder"></label>
+		</div>
+		<div id="uploadResFile" style="float:left;padding-right: 5px;">
+		<button class="btn btn-small btn-success">
+			<i class="icon-upload icon-white"></i> 上传文件
+		</button>
+		</div>
+		目录名称：<input type="text" id="folder" style="height: 20px;width:100px;margin-top:5px;"/>
+		<button class="btn btn-small">
+			<i class="icon-folder-open"></i> 新建
+		</button>
+	</div>
+	资源管理
+</div>
+#literal()
+<div style="clear: left;">
+	<textarea id="rescode" name="rescode"></textarea>
+</div>
+<script type="text/javascript">
+<!--
+	$(function(){
+		var resCodeEdit = CodeMirror.fromTextArea(document.getElementById('rescode'), {mode:"text/css",lineNumbers:true});
+		$.post('tempfile!readerRes.action',{'fileName':module.filePath},
+	        	function(result){
+					resCodeEdit.setValue(result.content);
+	        	},
+	        'json');
+	});
+//-->
+</script>
+#end

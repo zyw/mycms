@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,28 +117,12 @@ public class TemplateFileAction extends BaseAction {
 	}
 	public String readerFile() throws Exception{
 		String realPath = ServletActionContext.getServletContext().getRealPath(Constant.SKINS+File.separator+templateName+File.separator+moduleName+File.separator+fileName);
-		File file = new File(realPath);
-		
-		Map<String,String> fileContentList = new HashMap<String,String>();
-		BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-		StringBuffer sb = new StringBuffer();
-		String temp = null;
-		while((temp = content.readLine()) != null){
-			sb.append(temp+"\n");
-		}
-		content.close();
-		
-		fileContentList.put("content", sb.toString());
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setContentType("application/json;charset=utf-8");
-		response.setHeader("Cache-Control","no-cache");
-		
-		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(fileContentList);
-		PrintWriter pw = response.getWriter();
-		pw.print(json);
-		pw.flush();
-		
+		readFileContent(realPath);
+		return null;
+	}
+	public String readerRes() throws Exception{
+		String realPath = ServletActionContext.getServletContext().getRealPath(Constant.SKINS+File.separator+fileName);
+		readFileContent(realPath);
 		return null;
 	}
 	public String saveModify() throws Exception{
@@ -180,5 +167,28 @@ public class TemplateFileAction extends BaseAction {
 		pw.print("{ success: true, fileUrl:'" + realPath + "' }");
 		pw.flush();
 		return null;
+	}
+	private void readFileContent(String realPath) throws IOException, FileNotFoundException{
+		File file = new File(realPath);
+		Map<String,String> fileContentList = new HashMap<String,String>();
+		StringBuffer sb = new StringBuffer();
+		
+		BufferedReader content = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+		String temp = null;
+		while((temp = content.readLine()) != null){
+			sb.append(temp+"\n");
+		}
+		content.close();
+		
+		fileContentList.put("content", sb.toString());
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Cache-Control","no-cache");
+		
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(fileContentList);
+		PrintWriter pw = response.getWriter();
+		pw.print(json);
+		pw.flush();
 	}
 }

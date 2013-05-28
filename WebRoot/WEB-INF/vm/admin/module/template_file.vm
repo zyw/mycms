@@ -1,9 +1,3 @@
-<link rel="stylesheet" href="css/codemirror.css">
-<script type="text/javascript" src="js/codemirror.js"></script>
-<script type="text/javascript" src="js/xml.js"></script>
-<script type="text/javascript" src="js/javascript.js"></script>
-<script type="text/javascript" src="js/css.js"></script>
-<script type="text/javascript" src="js/htmlmixed.js"></script>
 <style>.CodeMirror {border: 1px solid #EFEFEF;font-size: 12px;}</style>
 <div class="mbx">当前位置： 
 	#home() &gt;&gt; 

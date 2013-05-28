@@ -7,8 +7,17 @@
 		animate:true,
 		onBeforeLoad:function(node,param){
 			$.each(param,function(i,n){
-				alert(i + "==" + n);
+				//alert(i + "==" + n);
 			});
+		},
+		onClick:function(node){
+			if(node.attributes.fileType){
+				mycms.reqGridData('resTable',node.id);
+				//mycms.layouthref('resource_manager','res/res_list.vm');
+			}else{
+				module.filePath = node.id;
+				mycms.layouthref('resource_manager','res/res_file.vm');
+			}
 		}
 	});
 //-->
