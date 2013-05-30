@@ -180,6 +180,7 @@ public class TemplateFileAction extends BaseAction {
 		}
 		content.close();
 		
+		
 		fileContentList.put("content", sb.toString());
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("application/json;charset=utf-8");
